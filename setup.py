@@ -11,8 +11,15 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+
+version = '1.3.0.dev0'
+
 import os
 from setuptools import setup, find_packages
+import sys
+
+# Use unittest.mock in Python >= 3.3, or the mock package from PyPI on < 3.3
+CONDITIONAL_TEST_REQUIREMENTS = ['mock'] if sys.version_info < (3, 3) else []
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
@@ -35,9 +42,9 @@ open('doc.txt', 'w').write(long_description)
 
 setup(
     name = 'zc.lockfile',
-    version='1.1.1.dev0',
-    author = "Jim Fulton",
-    author_email = "jim@zope.com",
+    version=version,
+    author = "Zope Foundation",
+    author_email = "zope-dev@zope.org",
     description = "Basic inter-process locks",
     long_description=long_description,
     license = "ZPL 2.1",
@@ -48,7 +55,7 @@ setup(
     namespace_packages = ['zc'],
     install_requires = 'setuptools',
     extras_require=dict(
-        test=[
+        test=CONDITIONAL_TEST_REQUIREMENTS + [
             'zope.testing',
             ]),
     classifiers = [
@@ -63,14 +70,15 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Software Development',
        ],
     test_suite="zc.lockfile.tests.test_suite",
-    tests_require=[
+    tests_require=CONDITIONAL_TEST_REQUIREMENTS + [
         'zope.testing'],
     include_package_data = True,
     zip_safe=False,
