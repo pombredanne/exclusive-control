@@ -1,0 +1,9 @@
+include *.rst
+include *.txt
+include tox.ini
+
+graft src
+graft etc
+graft docs
+
+global-exclude *.pyc
